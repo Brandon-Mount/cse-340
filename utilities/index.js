@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model")
+
 const Util = {}
 
 /* ************************
@@ -8,7 +9,7 @@ Util.getNav = async function (req, res, next) {
   let data = await invModel.getClassifications()
   let list = "<ul>"
   list += '<li><a href="/" title="Home page">Home</a></li>'
-  data.rows.forEach((row) => {
+  data.forEach((row) => {
     list += "<li>"
     list +=
       '<a href="/inv/type/' +
@@ -27,45 +28,66 @@ Util.getNav = async function (req, res, next) {
 /* **************************************
 * Build the classification view HTML
 * ************************************ */
-Util.buildClassificationGrid = async function(data){
+Util.buildClassificationGrid = async function (data) {
   let grid
-  if(data.length > 0){
+  if (data.length > 0) {
     grid = '<ul id="inv-display">'
-    data.forEach(vehicle => { 
-      grid += '<li>'
-      grid +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
-      + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
-      + 'details"><img src="' + vehicle.inv_thumbnail 
-      +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
-      +' on CSE Motors" /></a>'
+    data.forEach((vehicle) => {
+      grid += "<li>"
+      grid +=
+        '<a href="../../inv/detail/' +
+        vehicle.inv_id +
+        '" title="View ' +
+        vehicle.inv_make +
+        " " +
+        vehicle.inv_model +
+        ' details"><img src="' +
+        vehicle.inv_thumbnail +
+        '" alt="Image of ' +
+        vehicle.inv_make +
+        " " +
+        vehicle.inv_model +
+        ' on CSE Motors" /></a>'
       grid += '<div class="namePrice">'
-      grid += '<hr />'
-      grid += '<h2>'
-      grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
-      + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
-      + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'
-      grid += '</h2>'
-      grid += '<span>$' 
-      + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
-      grid += '</div>'
-      grid += '</li>'
+      grid += "<hr />"
+      grid += "<h2>"
+      grid +=
+        '<a href="../../inv/detail/' +
+        vehicle.inv_id +
+        '" title="View ' +
+        vehicle.inv_make +
+        " " +
+        vehicle.inv_model +
+        " details'>" +
+        vehicle.inv_make +
+        " " +
+        vehicle.inv_model +
+        "</a>"
+      grid += "</h2>"
+      grid +=
+        "<span>$" +
+        new Intl.NumberFormat("en-US").format(vehicle.inv_price) +
+        "</span>"
+      grid += "</div>"
+      grid += "</li>"
     })
-    grid += '</ul>'
-  } else { 
-    grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
+    grid += "</ul>"
+  } else {
+    grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>'
   }
   return grid
 }
 
-function buildVehicleDetail(data) {
+/* **************************************
+* Build the vehicle detail HTML
+* ************************************ */
+Util.buildVehicleDetail = function (data) {
   const priceFormatted = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-  }).format(data.inv_price);
+  }).format(data.inv_price)
 
-  const mileageFormatted = new Intl.NumberFormat("en-US").format(
-    data.inv_miles
-  );
+  const mileageFormatted = new Intl.NumberFormat("en-US").format(data.inv_miles)
 
   return `
     <section class="vehicle-detail">
@@ -80,8 +102,7 @@ function buildVehicleDetail(data) {
         <p><strong>Description:</strong> ${data.inv_description}</p>
       </div>
     </section>
-  `;
+  `
 }
 
-
-module.exports = {Util, buildVehicleDetail}
+module.exports = Util

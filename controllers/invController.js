@@ -1,5 +1,6 @@
+// controllers/invController.js
 const invModel = require("../models/inventory-model")
-const utilities = require("../utilities/")
+const utilities = require("../utilities")
 
 const invCont = {}
 
@@ -19,29 +20,29 @@ invCont.buildByClassificationId = async function (req, res, next) {
   })
 }
 
-// controllers/inventoryController.js
-const invModel = require("../models/inventory-model");
-const utilities = require("../utilities");
-
-async function buildById(req, res, next) {
-  const inv_id = req.params.inv_id;
+/* ***************************
+ *  Build vehicle detail view by inv_id
+ * ************************** */
+invCont.buildByInvId = async function (req, res, next) {
+  const inv_id = req.params.inv_id
   try {
-    const data = await invModel.getVehicleById(inv_id);
+    const data = await invModel.getVehicleById(inv_id)
     if (!data) {
-      return res.status(404).send("Vehicle not found");
+      return res.status(404).send("Vehicle not found")
     }
 
-    const grid = await utilities.buildVehicleDetail(data);
+    const grid = await utilities.buildVehicleDetail(data)
+    let nav = await utilities.getNav()
 
     res.render("./inventory/detail", {
       title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
+      nav,
       grid,
       errors: null,
-    });
+    })
   } catch (error) {
-    next(error);
+    next(error)
   }
 }
 
-
- module.exports = {invCont, buildById}
+module.exports = invCont
