@@ -171,3 +171,38 @@ nav a:focus {
     padding: 1rem;
   }
 }
+
+
+.vehicle-detail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.vehicle-image {
+  flex: 1 1 40%;
+}
+
+.vehicle-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.vehicle-info {
+  flex: 1 1 55%;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.vehicle-info h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .vehicle-detail {
+    flex-direction: column;
+  }
+}
