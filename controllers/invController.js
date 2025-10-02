@@ -9,15 +9,19 @@ const invCont = {}
  * ************************** */
 invCont.buildByClassificationId = async function (req, res, next) {
   const classification_id = req.params.classificationId
-  const data = await invModel.getInventoryByClassificationId(classification_id)
-  const grid = await utilities.buildClassificationGrid(data)
-  let nav = await utilities.getNav()
-  const className = data[0].classification_name
-  res.render("./inventory/classification", {
-    title: className + " vehicles",
-    nav,
-    grid,
-  })
+  try {
+    const data = await invModel.getInventoryByClassificationId(classification_id)
+    const grid = await utilities.buildClassificationGrid(data)
+    const nav = await utilities.getNav()
+    const className = data[0]?.classification_name || "Unknown"
+    res.render("./inventory/classification", {
+      title: `${className} vehicles`,
+      nav,
+      grid,
+    })
+  } catch (error) {
+    next(error)
+  }
 }
 
 /* ***************************
@@ -31,14 +35,12 @@ invCont.buildByInvId = async function (req, res, next) {
       return res.status(404).send("Vehicle not found")
     }
 
-    const grid = await utilities.buildVehicleDetail(data)
-    let nav = await utilities.getNav()
+    const nav = await utilities.getNav()
 
     res.render("./inventory/detail", {
       title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
       nav,
-      grid,
-      errors: null,
+      vehicle: data,
     })
   } catch (error) {
     next(error)

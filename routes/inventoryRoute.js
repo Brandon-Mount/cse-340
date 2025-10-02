@@ -1,10 +1,12 @@
-// Needed Resources 
+// routes/inventoryRoute.js
 const express = require("express")
-const router = new express.Router() 
+const router = new express.Router()
 const invController = require("../controllers/invController")
-// Route to build inventory by classification view
-router.get("/type/:classificationId", invController.buildByClassificationId);
-// Route for vehicle detail veiw
-router.get('/detail/:inv_id' , invController.buildByInvId);
 
-module.exports = router;
+// Route to build inventory by classification view
+router.get("/type/:classificationId", invController.buildByClassificationId)
+
+// Route for vehicle detail view
+router.get("/detail/:inv_id", invController.buildByInvId)
+
+module.exports = router
