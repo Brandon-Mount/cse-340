@@ -1,15 +1,15 @@
-<%- include('../partials/header') %>
+<h1><%= title %></h1>
 
-<main class="vehicle-detail">
-  <h1><%= title %></h1>
-  <section>
+<section class="vehicle-detail">
+  <div class="vehicle-image">
     <img src="<%= vehicle.inv_image %>" alt="Image of <%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+  </div>
+  <div class="vehicle-info">
     <p><strong>Year:</strong> <%= vehicle.inv_year %></p>
     <p><strong>Make:</strong> <%= vehicle.inv_make %></p>
     <p><strong>Model:</strong> <%= vehicle.inv_model %></p>
     <p><strong>Price:</strong> $<%= new Intl.NumberFormat("en-US").format(vehicle.inv_price) %></p>
     <p><strong>Description:</strong> <%= vehicle.inv_description %></p>
-  </section>
-</main>
+  </div>
+</section>
 
-<%- include('../partials/footer') %>
